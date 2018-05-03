@@ -14,6 +14,7 @@ namespace MovieReview
     {
         public static void Main(string[] args)
         {
+            //bbernard test
             BuildWebHost(args).Run();
         }
 
