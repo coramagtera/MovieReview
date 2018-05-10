@@ -5,16 +5,16 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
 using MovieReview.Data;
 using System;
 
 namespace MovieReview.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180510173139_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,9 +185,6 @@ namespace MovieReview.Data.Migrations
                     b.Property<int>("GenreID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
                     b.Property<string>("GenreName")
                         .IsRequired()
                         .HasMaxLength(50);
@@ -195,25 +192,6 @@ namespace MovieReview.Data.Migrations
                     b.HasKey("GenreID");
 
                     b.ToTable("Genre");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Genre");
-                });
-
-            modelBuilder.Entity("MovieReview.Models.Movie", b =>
-                {
-                    b.HasBaseType("MovieReview.Models.Genre");
-
-                    b.Property<string>("Length");
-
-                    b.Property<int>("MovieID");
-
-                    b.Property<string>("Rating");
-
-                    b.Property<string>("Title");
-
-                    b.ToTable("Movie");
-
-                    b.HasDiscriminator().HasValue("Movie");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
