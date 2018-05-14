@@ -12,19 +12,20 @@ namespace MovieReview.Models
     {
         public int ReviewID { get; set; }
 
-        [Display(Name = "Creator")]
+        [Range(0,100)]
+        public int Rating { get; set; }
 
-        [Required]
-        [StringLength(65, ErrorMessage = "Creator's name cannot be longer than 65 characters")]
-        public string Creator { get; set; }
-
-        
-        public int MovieID { get; set; }
-        //      [Key]
+        public string WrittenReview { get; set; }
 
         [DataType(DataType.EmailAddress)]
         public String Email { get; set; }
-    //   [StringLength(90)]
+
+        //FK
+        public int MovieID { get; set; }
+        
+
+        //Nav prop
+        public virtual Movie Movie { get; set; }
         
     }
 }

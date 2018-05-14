@@ -10,11 +10,13 @@ namespace MovieReview.Models
     public class Genre
     {
         public int GenreID { get; set; }
-
-
-        [Display(Name = "Genre Type")]
+        
         [Required]
-        [StringLength(50, ErrorMessage = "Genre name cannot be longer than 50 characters")]
+        [Display(Name = "Genre Type")]
+        [StringLength(50, MinimumLength =3)]
         public string GenreName { get; set; }
+
+        //nav prop
+        public virtual ICollection<Movie> Movies { get; set; }
     }
 }

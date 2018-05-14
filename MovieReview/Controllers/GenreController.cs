@@ -22,7 +22,7 @@ namespace MovieReview.Controllers
         // GET: Genre
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Genre.ToListAsync());
+            return View(await _context.Genres.ToListAsync());
         }
 
         // GET: Genre/Details/5
@@ -33,7 +33,7 @@ namespace MovieReview.Controllers
                 return NotFound();
             }
 
-            var genre = await _context.Genre
+            var genre = await _context.Genres
                 .SingleOrDefaultAsync(m => m.GenreID == id);
             if (genre == null)
             {
@@ -73,7 +73,7 @@ namespace MovieReview.Controllers
                 return NotFound();
             }
 
-            var genre = await _context.Genre.SingleOrDefaultAsync(m => m.GenreID == id);
+            var genre = await _context.Genres.SingleOrDefaultAsync(m => m.GenreID == id);
             if (genre == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace MovieReview.Controllers
                 return NotFound();
             }
 
-            var genre = await _context.Genre
+            var genre = await _context.Genres
                 .SingleOrDefaultAsync(m => m.GenreID == id);
             if (genre == null)
             {
@@ -139,15 +139,15 @@ namespace MovieReview.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var genre = await _context.Genre.SingleOrDefaultAsync(m => m.GenreID == id);
-            _context.Genre.Remove(genre);
+            var genre = await _context.Genres.SingleOrDefaultAsync(m => m.GenreID == id);
+            _context.Genres.Remove(genre);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool GenreExists(int id)
         {
-            return _context.Genre.Any(e => e.GenreID == id);
+            return _context.Genres.Any(e => e.GenreID == id);
         }
     }
 }

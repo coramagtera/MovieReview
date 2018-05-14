@@ -22,7 +22,7 @@ namespace MovieReview.Controllers
         // GET: Movie
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Movie.ToListAsync());
+            return View(await _context.Movies.ToListAsync());
         }
 
         // GET: Movie/Details/5
@@ -33,7 +33,7 @@ namespace MovieReview.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movie
+            var movie = await _context.Movies
                 .SingleOrDefaultAsync(m => m.GenreID == id);
             if (movie == null)
             {
@@ -73,7 +73,7 @@ namespace MovieReview.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movie.SingleOrDefaultAsync(m => m.GenreID == id);
+            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.GenreID == id);
             if (movie == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace MovieReview.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movie
+            var movie = await _context.Movies
                 .SingleOrDefaultAsync(m => m.GenreID == id);
             if (movie == null)
             {
@@ -139,15 +139,15 @@ namespace MovieReview.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var movie = await _context.Movie.SingleOrDefaultAsync(m => m.GenreID == id);
-            _context.Movie.Remove(movie);
+            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.GenreID == id);
+            _context.Movies.Remove(movie);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MovieExists(int id)
         {
-            return _context.Movie.Any(e => e.GenreID == id);
+            return _context.Movies.Any(e => e.GenreID == id);
         }
     }
 }
