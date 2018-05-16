@@ -56,7 +56,7 @@ namespace MovieReview.Controllers
         // GET: Movie/Create
         public IActionResult Create()
         {
-            ViewData["GenreID"] = new SelectList(_context.Genres, "GenreID", "GenreType");
+            ViewData["GenreID"] = new SelectList(_context.Genres, "GenreID", "GenreName");
             return View();
         }
 
