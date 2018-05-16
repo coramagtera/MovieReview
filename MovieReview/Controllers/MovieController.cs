@@ -25,6 +25,15 @@ namespace MovieReview.Controllers
             return View(await _context.Movies.ToListAsync());
         }
 
+
+      
+       //public async Task <IActionResult> Listing(int? genreID)
+       // {
+       //     var movies = _context.Movies.Where(m => !genreID.HasValue || m.GenreID == genreID);
+
+            
+
+       // }
         // GET: Movie/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -34,7 +43,8 @@ namespace MovieReview.Controllers
             }
 
             var movie = await _context.Movies
-                .SingleOrDefaultAsync(m => m.GenreID == id);
+               // .Include(m=> m.Genre)
+                .SingleOrDefaultAsync(m => m.MovieID == id);
             if (movie == null)
             {
                 return NotFound();
@@ -46,6 +56,7 @@ namespace MovieReview.Controllers
         // GET: Movie/Create
         public IActionResult Create()
         {
+            ViewData["GenreID"] = new SelectList(_context.Genres, "GenreID", "GenreType");
             return View();
         }
 

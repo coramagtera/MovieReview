@@ -25,7 +25,7 @@ namespace MovieReview.Models
         public int GenreID { get; set; }
 
         //nav prop
-        public virtual Genre Genre { get; set; }
+        public virtual Genre GenreName { get; set; }
         public virtual ICollection<Review> Review { get; set; }
 
 

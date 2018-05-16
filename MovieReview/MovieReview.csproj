@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-MovieReview-CB203517-FC98-4DAF-A4B4-63C48C9BFBBF</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20180516170114_ProperMovie.cs" />
+    <Compile Remove="Data\Migrations\20180516170114_ProperMovie.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
