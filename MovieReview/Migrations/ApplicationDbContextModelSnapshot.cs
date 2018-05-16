@@ -8,13 +8,12 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using MovieReview.Data;
 using System;
 
-namespace MovieReview.Data.Migrations
+namespace MovieReview.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180510173139_Initial")]
-    partial class Initial
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,6 +193,48 @@ namespace MovieReview.Data.Migrations
                     b.ToTable("Genre");
                 });
 
+            modelBuilder.Entity("MovieReview.Models.Movie", b =>
+                {
+                    b.Property<int>("MovieID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("GenreID");
+
+                    b.Property<string>("Length");
+
+                    b.Property<DateTime>("ReleaseDate");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(65);
+
+                    b.HasKey("MovieID");
+
+                    b.HasIndex("GenreID");
+
+                    b.ToTable("Movie");
+                });
+
+            modelBuilder.Entity("MovieReview.Models.Review", b =>
+                {
+                    b.Property<int>("ReviewID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Email");
+
+                    b.Property<int>("MovieID");
+
+                    b.Property<int>("Rating");
+
+                    b.Property<string>("WrittenReview");
+
+                    b.HasKey("ReviewID");
+
+                    b.HasIndex("MovieID");
+
+                    b.ToTable("Review");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -236,6 +277,22 @@ namespace MovieReview.Data.Migrations
                     b.HasOne("MovieReview.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MovieReview.Models.Movie", b =>
+                {
+                    b.HasOne("MovieReview.Models.Genre", "GenreName")
+                        .WithMany("Movies")
+                        .HasForeignKey("GenreID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MovieReview.Models.Review", b =>
+                {
+                    b.HasOne("MovieReview.Models.Movie", "Movie")
+                        .WithMany("Review")
+                        .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
