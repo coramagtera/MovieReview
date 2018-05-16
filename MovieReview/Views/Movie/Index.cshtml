@@ -25,7 +25,7 @@
                     @Html.DisplayNameFor(model => model.Review)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.GenreName)
+                    @Html.DisplayNameFor(model => model.Genre)
                 </th>
             <th></th>
         </tr>
@@ -46,12 +46,12 @@
                 @Html.DisplayFor(modelItem => item.Review)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GenreName)
+                @Html.DisplayFor(modelItem => item.Genre.GenreName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.GenreID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GenreID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GenreID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.MovieID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MovieID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MovieID">Delete</a>
             </td>
         </tr>
 }

@@ -22,7 +22,7 @@ namespace MovieReview.Controllers
         // GET: Movie
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Movies.ToListAsync());
+            return View(await _context.Movies.Include(m=>m.Genre).ToListAsync());
         }
 
 
@@ -73,6 +73,7 @@ namespace MovieReview.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["GenreID"] = new SelectList(_context.Genres, "GenreID", "GenreName", movie.GenreID);
             return View(movie);
         }
 
@@ -84,11 +85,12 @@ namespace MovieReview.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.GenreID == id);
+            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.MovieID == id);
             if (movie == null)
             {
                 return NotFound();
             }
+            ViewData["GenreID"] = new SelectList(_context.Genres, "GenreID", "GenreName", movie.GenreID);
             return View(movie);
         }
 
@@ -97,9 +99,9 @@ namespace MovieReview.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MovieID,Title,Length,Rating,GenreID,GenreName")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("MovieID,Title,Length,GenreID")] Movie movie)
         {
-            if (id != movie.GenreID)
+            if (id != movie.MovieID)
             {
                 return NotFound();
             }
@@ -113,7 +115,7 @@ namespace MovieReview.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MovieExists(movie.GenreID))
+                    if (!MovieExists(movie.MovieID))
                     {
                         return NotFound();
                     }
@@ -124,6 +126,7 @@ namespace MovieReview.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["GenreID"] = new SelectList(_context.Genres, "GenreID", "GenreName", movie.GenreID);
             return View(movie);
         }
 
@@ -136,7 +139,7 @@ namespace MovieReview.Controllers
             }
 
             var movie = await _context.Movies
-                .SingleOrDefaultAsync(m => m.GenreID == id);
+                .SingleOrDefaultAsync(m => m.MovieID == id);
             if (movie == null)
             {
                 return NotFound();
@@ -150,7 +153,7 @@ namespace MovieReview.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.GenreID == id);
+            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.MovieID == id);
             _context.Movies.Remove(movie);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -158,7 +161,7 @@ namespace MovieReview.Controllers
 
         private bool MovieExists(int id)
         {
-            return _context.Movies.Any(e => e.GenreID == id);
+            return _context.Movies.Any(e => e.MovieID == id);
         }
     }
 }
