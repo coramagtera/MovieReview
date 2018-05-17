@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,11 +14,19 @@ namespace MovieReview.Controllers
     public class ReviewController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ReviewController(ApplicationDbContext context)
+        public ReviewController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync()
+        {
+            return _userManager.GetUserAsync(HttpContext.User);//this is the logged in user
+        }
+
 
         // GET: Review
         public async Task<IActionResult> Index()
@@ -46,9 +55,36 @@ namespace MovieReview.Controllers
         }
 
         // GET: Review/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? id)
         {
-            ViewData["MovieID"] = new SelectList(_context.Movies, "MovieID", "Title");
+            //ViewData["MovieID"] = new SelectList(_context.Movies, "MovieID", "Title");
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            //var user = await GetCurrentUserAsync();
+
+            //if (user == null)
+            //{
+            //    return NotFound();
+            //}
+            var movie = await _context.Movies
+     .SingleOrDefaultAsync(m => m.MovieID == id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            //user emial
+        //    ViewData["Email"] = user.UserName;
+            ViewData["Email"] = "john@gmail.com";
+            //user movide id
+            ViewData["MovieID"] = id.Value;
+            //user movie title
+            ViewData["MovieTitle"] = movie.Title;
+
             return View();
         }
 

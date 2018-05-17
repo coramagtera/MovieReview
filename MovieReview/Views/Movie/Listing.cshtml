@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MovieReview.Models.Movie>
+
+@{
+    ViewData["Title"] = "Listing";
+}
+
+<h2>Listing</h2>
+
+<div>
+
+
+    @if(Model.Count()==0)
+    {
+    <div>
+
+
+    </div>
+    }
+    else
+    {
+        <div>
+            @foreach (var item in Model)
+            {
+                var review = item.Review;
+                <div>
+                    <h3>@item.Title</h3>
+                    <div>
+                        <p><a asp-controller="Review" asp-action="Create" asp-route-id="@item.MovieID">Leave a Review</a></p>
+
+                       <p><a asp-controller="Review" asp-action="Details" asp-route-id="@item.MovieID" class="btn btn-success">View Review &raquo;</a></p>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+    }
+
+</div>
+

@@ -26,14 +26,26 @@ namespace MovieReview.Controllers
         }
 
 
-      
-       //public async Task <IActionResult> Listing(int? genreID)
-       // {
-       //     var movies = _context.Movies.Where(m => !genreID.HasValue || m.GenreID == genreID);
 
-            
+        public async Task<IActionResult> Listing(int? genreID)
+        {
+            var movies = _context.Movies.Where(m => !genreID.HasValue || m.GenreID == genreID);
 
-       // }
+            if(genreID !=null)
+            {
+                var genreName = _context.Genres.Where(g => g.GenreID == genreID).SingleOrDefault();
+
+                ViewData["GenreName"] = genreName.GenreName;
+            }
+            else
+            {
+                ViewData["GenreName"] = "All Genres";
+            }
+
+            return View(await movies.ToListAsync());
+
+
+        }
         // GET: Movie/Details/5
         public async Task<IActionResult> Details(int? id)
         {
