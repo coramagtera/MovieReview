@@ -29,9 +29,14 @@ namespace MovieReview.Controllers
 
 
         // GET: Review
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var applicationDbContext = _context.Reviews.Include(r => r.Movie);
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
+            var applicationDbContext = _context.Reviews.Include(r => r.Movie)
+                .Where(m => !id.HasValue ||m.MovieID == id);
             return View(await applicationDbContext.ToListAsync());
         }
 
