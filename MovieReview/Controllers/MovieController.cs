@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using MovieReview.Models;
 
 namespace MovieReview.Controllers
 {
+    [Authorize(Roles ="admin")]
     public class MovieController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,13 +22,14 @@ namespace MovieReview.Controllers
         }
 
         // GET: Movie
+        //[AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Movies.Include(m=>m.Genre).ToListAsync());
         }
 
 
-
+        [AllowAnonymous]
         public async Task<IActionResult> Listing(int? genreID)
         {
             var movies = _context.Movies.Where(m => !genreID.HasValue || m.GenreID == genreID);
@@ -47,6 +50,7 @@ namespace MovieReview.Controllers
 
         }
         // GET: Movie/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

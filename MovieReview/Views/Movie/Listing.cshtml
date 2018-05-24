@@ -4,30 +4,47 @@
     ViewData["Title"] = "Listing";
 }
 
-<h2>Listing</h2>
+<h2>Movie Listing</h2>
 
 <div>
 
 
-    @if(Model.Count()==0)
+    @if (Model.Count() == 0)
     {
-    <div>
+        <div>
+            <p>No films exist for this genre</p>
 
-
-    </div>
+        </div>
     }
     else
     {
-        <div>
+        <div class="row">
             @foreach (var item in Model)
             {
                 var review = item.Review;
-                <div>
-                    <h3>@item.Title</h3>
-                    <div>
-                        <p><a asp-controller="Review" asp-action="Create" asp-route-id="@item.MovieID">Leave a Review</a></p>
+                <div class="col-md-4" style="padding-top: 1em">
+                    <h3 class="bg-primary text-center">@item.Title</h3>
+                    <div style="padding:.2em">
+                        @if (User.IsInRole("admin"))
+                        {
+                            <div>
+                                <img class="img-responsive" src="~/images/Posters/@(item.MovieID).jpg" alt="@item.Title"/>
+                            </div>
+                            <a asp-controller="Review" asp-action="Create" asp-route-id="@item.MovieID">Leave a Review</a> @: |
+                            <a asp-controller="Review" asp-action="Index" asp-route-id="@item.MovieID" class="btn btn-success">View Review &raquo;</a>
+                        }
+                        else if (User.Identity.IsAuthenticated)
+                        { <a asp-controller="Review" asp-action="Create" asp-route-id="@item.MovieID">Leave a Review</a>
+                            <a asp-controller="Review" asp-action="Index" asp-route-id="@item.MovieID" class="btn btn-success">View Review &raquo;</a>
 
-                       <p><a asp-controller="Review" asp-action="Index" asp-route-id="@item.MovieID" class="btn btn-success">View Review &raquo;</a></p>
+                        }
+                        else
+                        {
+                            <a asp-controller="Review" asp-action="Index" asp-route-id="@item.MovieID" class="btn btn-success">View Review &raquo;</a>
+
+                        }
+
+
                     </div>
                 </div>
 

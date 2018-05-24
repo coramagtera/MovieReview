@@ -27,11 +27,11 @@
     <div id="site-content">
         <header class="site-header">
             <div class="container">
-                <a href="index.html" id="branding">
+                <a asp-action="Index" asp-controller="Home">
                     <img src="images/logo.png" alt="" class="logo">
                     <div class="logo-copy">
                         <h1 class="site-title">MovieReview</h1>
-                        <img src="~/images/logoformalcolm (1).png" />
+                        <img src="~/images/logoforsam (1) - Copy.png" />
                         @*<small class="site-description">Tagline goes here</small>*@
                     </div>
                 </a> <!-- #branding -->
@@ -40,19 +40,21 @@
                     <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
                     <ul class="menu">
                         <li class="menu-item current-menu-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
-                        <li class="menu-item"><a asp-action="about" asp-controller="Home">About</a></li>
+                        <li class="menu-item"><a asp-action="Listing" asp-controller="Movie">Movies Listing</a></li>
                         <li class="menu-item"><a asp-action="Index" asp-controller="Review">Movie reviews</a></li>
-                        <li class="menu-item"><a asp-action="Register" asp-controller="Account">Join us/Register</a></li>
-                        <li class="menu-item"><a asp-action="Contact" asp-controller="Home">Contact us</a></li>
+                        @if (User.IsInRole("admin"))
+                     {
+                    <li class="menu-item"><a asp-action="Index" asp-controller="Genre">Genres</a></li>
+                    <li class="menu-item"><a asp-action="Index" asp-controller="Movie">Movies</a></li>
+                    }
+                        <li>@await Html.PartialAsync("_LoginPartial")</li>
                     </ul> <!-- .menu -->
-
-                    <form action="#" class="search-form">
-                        <input type="text" placeholder="Search...">
-                        <button><i class="fa fa-search"></i></button>
-                    </form>
+                    @*<form action="#" class="search-form">
+                <input type="text" placeholder="Search...">
+                <button><i class="fa fa-search"></i></button>
+            </form>*@
                 </div> <!-- .main-navigation -->
-
-                <div class="mobile-navigation"></div>
+                @*@await Html.PartialAsync("_LoginPartial")*@
             </div>
         </header>
         <main class="main-content">
@@ -126,7 +128,7 @@
                     </div>
                 </div> <!-- .row -->
 
-                <div class="colophon">Copyright 2014 Company name, Designed by Themezy. All rights reserved</div>
+                <div class="colophon">Copyright 2014 MovieReview, Designed by Themezy. All rights reserved</div>
             </div> <!-- .container -->
 
         </footer>
